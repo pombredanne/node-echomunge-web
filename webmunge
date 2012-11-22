@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const MAX_PARAGRAPH_LENGTH = 1000
+    , MAKE_TEXT_OPTIONS    = { maxLength: MAX_PARAGRAPH_LENGTH, terminate: true }
+var echoMungeWeb = require('./')
+
+echoMungeWeb(process.argv[2], function (err, db, urls, paragraphs) {
+  if (err) return console.err(err)
+  console.log('From:', urls)
+  console.log('Got', paragraphs, 'useful paragraphs')
+  console.log('******************************************************')
+  for (var i = 0; i < 10; i++) {
+    console.log(db.makeText(MAKE_TEXT_OPTIONS))
+    if (i < 10 - 1) console.log()
+  }
+  console.log('******************************************************')
+})

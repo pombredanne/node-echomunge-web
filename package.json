@@ -1,0 +1,23 @@
+{
+    "name": "echomunge-web"
+  , "version": "0.0.0"
+  , "description": "Collect text (from a web address) and echo back out text with similar patterns. Pure silliness with no practical purpose."
+  , "main": "index.js"
+  , "bin": {
+        "echomunge-web": "./webmunge"
+    }
+  , "repository": {
+        "type": "git"
+      , "url": "https://github.com/rvagg/node-echomunge.git"
+    }
+  , "keywords": [ "silly", "munge" ]
+  , "authors": [
+        "Rod Vagg @rvagg <rod@vagg.org> (https://github.com/rvagg)"
+    ]
+  , "dependencies": {
+        "echomunge": "~0.0.0"
+      , "request": "~2.12.0"
+      , "cheerio": "~0.10.3"
+    }
+  , "license": "MIT"
+}
