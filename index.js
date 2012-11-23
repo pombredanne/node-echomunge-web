@@ -13,11 +13,7 @@ var request    = require('request')
   , cheerio    = require('cheerio')
   , EchoMunge  = require('echomunge')
 
-  , db         = new EchoMunge()
-  , urls       = []
-  , paragraphs = 0
-
-  , proc       = function (body) {
+  , proc       = function (db, body) {
       return cheerio.load(body)('p').each(function () {
         var text = this.text().replace(/\[\d+\]/g, '') // clean up
         //console.log(text)
@@ -34,7 +30,7 @@ var request    = require('request')
       )
     }
 
-  , loop       = function (_url, cb, _l) {
+  , loop       = function (db, urls, paragraphs, _url, cb, _l) {
       var fetchUrl = !_url
         ? DEFAULT_URL
         : /^http/.test(_url)
@@ -45,8 +41,8 @@ var request    = require('request')
         fetch(fetchUrl, function (err, url, body) {
           if (err) return cb(err)
           urls.push(url)
-          paragraphs += proc(body)
-          loop(_url, cb, _l ? _l + 1 : 1)
+          paragraphs += proc(db, body)
+          loop(db, urls, paragraphs, _url, cb, _l ? _l + 1 : 1)
         })
       } else {
         if (!db.hasData())
@@ -55,4 +51,6 @@ var request    = require('request')
       }
     }
 
-module.exports = loop
+module.exports = function (url, callback) {
+  loop(new EchoMunge(), [], 0, url, callback)
+}
